@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inuk Agents Therapy</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23f5f4ef'/><circle cx='50' cy='50' r='35' fill='%230b0e14'/><circle cx='50' cy='50' r='25' fill='%23ef4444'/><circle cx='50' cy='52' r='12' fill='%23000'/><circle cx='52' cy='48' r='5' fill='%23fff'/></svg>" type="image/svg+xml">
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -13,277 +14,532 @@
       color: #f5f4ef;
       font-family: 'Outfit', system-ui, sans-serif;
       min-height: 100vh;
-      padding: 40px 20px;
+      overflow-x: hidden;
+      padding: 60px 24px;
     }
 
     header {
       max-width: 1200px;
       margin: 0 auto 60px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
       padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 600;
-      margin-bottom: 12px;
       background: linear-gradient(135deg, #60a5fa, #fb923c);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
     }
 
     .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #9ea3b0;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .stats {
       display: flex;
-      gap: 40px;
+      gap: 32px;
       font-family: 'JetBrains Mono';
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      color: #9ea3b0;
     }
 
     .chapters {
       max-width: 1200px;
       margin: 0 auto;
-      display: grid;
-      gap: 32px;
     }
 
     .chapter {
-      background: rgba(18, 24, 34, 0.8);
-      padding: 20px;
-      border-radius: 8px;
-      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
     }
 
     .chapter:hover {
-      background: rgba(18, 24, 34, 1);
+      transform: translateX(8px);
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Inuk Agents Therapy</h1>
-    <p class="subtitle">Mirror Protocol — Real work, real conversations</p>
+    <p class="subtitle">Mirror Protocol — Complete Work Timeline</p>
     <div class="stats">
-      <div>📊 15 Chapters</div>
+      <div>📊 39 Chapters</div>
+      <div>🔄 Real Sessions</div>
       <div>📅 2026-03-14 to 2026-04-22</div>
-      <div>🔄 Mirror Protocol Active</div>
     </div>
   </header>
 
   <div class="chapters">
 
-    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#10</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-20</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#03</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-20</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#07</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#08</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
         <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#01</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-14</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-14</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 75 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
     </div>
     
 
-    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
         <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#02</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-15</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-15</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 85 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
     </div>
     
 
-    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#12</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#03</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-16</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-16</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 30 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
     </div>
     
 
-    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#05</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#15</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#13</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#06</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px;">
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#11</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
-      </div>
-      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Modified: //dev.lyai.pro/viewer.html
-      </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 2 files • 0 endpoints
-      </div>
-    </div>
-    
-
-    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
         <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#04</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-17</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-17</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 497 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
     </div>
     
 
-    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#09</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#05</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-18</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-18</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 102 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
-      </div>
     </div>
     
 
-    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px;">
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
       <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#14</span>
-        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#06</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-19</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-19</span>
       </div>
       <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
-        Development work
+        📂 lyai-core / cervell.lyai.pro • 170 turns
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: #4b5563;">
-        0 commits • 0 files • 0 endpoints
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#07</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-20</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-20</span>
       </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 105 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#08</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-21</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 411 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#09</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-22</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 946 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#10</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-23</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-23</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 206 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#11</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-24</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-24-RAW-GEMINI-V2</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#12</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-24</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-24-RAW-GEMINI</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#13</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-24</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-24</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 922 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#14</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-25</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-25</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 593 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#15</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-26</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-26</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 18 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#16</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-27</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-27</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 87 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#17</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-29</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-29</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 235 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#18</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-30</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-30</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 301 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#19</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-03-31</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-03-31</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 484 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#20</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-03</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-03</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 327 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-04</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-04</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 290 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-05</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-05</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 2074 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#23</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-06</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-06</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 507 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#24</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-07</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-07</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 938 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#25</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-08</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">2026-04-08</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📂 lyai-core / cervell.lyai.pro • 364 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#26</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-18</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">32ca8d24</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 2718 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#27</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-18</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">6bffb46b</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 28 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#28</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-20</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">5224315f</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 3 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#29</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-20</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">3c3d1a0a</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Review ski app session state and start • 2970 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#30</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-20</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">f6c39b90</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Review session state and start critical task • 1433 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#31</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">1a90ef4b</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Continue ski app development session 4 • 3748 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#32</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">d64dd01b</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 8 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#33</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">c97feb37</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Fix AI concierge mic handler and translations • 43 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fbbf24; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fbbf24;">#34</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">b2da1a78</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Get Pyxel agents working • 3 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #ec4899; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #ec4899;">#35</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">3f8c29ff</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 1424 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #60a5fa; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #60a5fa;">#36</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-21</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">e7ffbb08</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 639 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #fb923c; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #fb923c;">#37</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">aa2d51b8</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Configure remote SSH connection in VS Code • 676 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #34d399; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #34d399;">#38</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">dc995a0f</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 673 turns
+      </p>
+    </div>
+    
+
+    <div class="chapter" style="border-left: 4px solid #f472b6; padding-left: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 2rem; font-weight: 600; color: #f472b6;">#39</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #9ea3b0;">2026-04-22</span>
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #4b5563; margin-left: auto;">38891372</span>
+      </div>
+      <p style="font-size: 0.95rem; color: #f5f4ef; margin: 0; line-height: 1.5;">
+        📝 Development session • 146 turns
+      </p>
     </div>
     
   </div>
