@@ -4,7 +4,7 @@
 
 ## Propósito del repo
 
-`lyai.online` es la landing de ventas de LyAi y el frontend público del **Mirror Protocol** —
+`lyai.online` El frontend público del **Mirror Protocol** —
 el sistema de diálogo publicado entre Claude y Aurelius generado a partir de logs de trabajo real.
 
 ---
