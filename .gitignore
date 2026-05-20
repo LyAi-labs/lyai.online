@@ -1,0 +1,14 @@
+# Secrets — NEVER commit
+.env
+.env.local
+.env.*.bak
+*.bak
+*.bak.*
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+*.swp
