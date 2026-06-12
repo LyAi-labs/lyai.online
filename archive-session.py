@@ -103,6 +103,46 @@ def render_day(day, turns):
 
     return header + body
 
+# ── Per-sesión (2026-06-12) · 1 episodio por sesión, no por día ──────────────
+def find_jsonl_by_session(session_id):
+    glob_fn = JSONL_DIR.rglob if JSONL_RECURSIVE else JSONL_DIR.glob
+    matches = list(glob_fn(f"{session_id}.jsonl"))
+    return matches[0] if matches else None
+
+def render_session(date, slug, session_id, turns):
+    date_obj = datetime.fromisoformat(date)
+    header = f"# Session Archive — {date} · {slug}\n\n"
+    header += f"**Date**: {date_obj.strftime('%A, %d %B %Y')}  \n"
+    header += f"**Session**: {slug}  \n"
+    header += f"**Session ID**: {session_id}  \n"
+    header += f"**Turns**: {len(turns)} ({sum(1 for t in turns if t['role']=='user')} user · {sum(1 for t in turns if t['role']=='assistant')} assistant)  \n"
+    header += f"**Project**: lyai-ski  \n\n---\n\n"
+    body = ""
+    for turn in turns:
+        role_label = "**Claude**" if turn["role"] == "assistant" else "**You**"
+        time_str = turn["ts"][11:16] if len(turn["ts"]) >= 16 else ""
+        body += f"### {role_label} `{time_str}`\n\n{turn['text']}\n\n---\n\n"
+    return header + body
+
+def archive_session(date, slug, session_id, force=False):
+    jsonl = find_jsonl_by_session(session_id)
+    if not jsonl:
+        print(f"  ✗ No JSONL para session-id {session_id}")
+        return None
+    days = load_sessions([jsonl])
+    if date and date in days:
+        turns = days[date]
+    elif not date and len(days) == 1:
+        date = next(iter(days)); turns = days[date]
+    elif days:
+        date = sorted(days.keys())[-1]; turns = days[date]  # sesión multi-día → día más reciente
+    else:
+        print(f"  ✗ Sesión {session_id} sin turnos"); return None
+    out_path = SESSIONS_DIR / f"session-{date}-{slug}.md"
+    out_path.write_text(render_session(date, slug, session_id, turns), encoding="utf-8")
+    print(f"  ✓ {date} · {slug}: {len(turns)} turnos → {out_path.name}")
+    return out_path
+
 def archive_day(day, turns, force=False):
     out_path = SESSIONS_DIR / f"session-{day}.md"
     if out_path.exists() and not force:
@@ -150,7 +190,22 @@ def main():
     parser.add_argument("--push", action="store_true", help="Subir al servidor tras archivar")
     parser.add_argument("--force", action="store_true", help="Sobreescribir archivos existentes")
     parser.add_argument("--no-git", action="store_true", help="No hacer git commit")
+    parser.add_argument("--session-id", help="Modo per-sesión: archivar solo este JSONL (uuid)")
+    parser.add_argument("--slug", help="Slug humano de la sesión (nombre del episodio)")
     args = parser.parse_args()
+
+    # ── Modo per-sesión (2026-06-12) ──
+    if args.session_id:
+        slug = re.sub(r'[^a-z0-9]+', '-', (args.slug or 'session').lower()).strip('-') or 'session'
+        print(f"→ Modo per-sesión · {args.session_id[:8]} · slug={slug}")
+        path = archive_session(args.date, slug, args.session_id, force=args.force)
+        archived = [path] if path else []
+        if archived and not args.no_git:
+            git_commit_sessions()
+        if args.push and archived:
+            push_to_server(archived)
+        print(f"\n✅ per-sesión: {len(archived)} archivada(s) en {SESSIONS_DIR}/")
+        return
 
     jsonls = find_all_jsonl()
     if not jsonls:

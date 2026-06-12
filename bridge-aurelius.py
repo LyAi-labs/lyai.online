@@ -202,9 +202,15 @@ def render_episode_html(ep: dict) -> str:
     episode_title = ep.get("episode_title", f"Episode {episode_num:03d}")
     episode_sub = ep.get("episode_sub", "")
 
-    # Episode header with title
+    # Episode header with title · 2026-06-12: per-sesión · marcador data-session
+    # (día__slug) para idempotencia (re-cerrar la misma sesión reemplaza) + label visible.
+    sess_lbl = (label or "").strip()
+    if sess_lbl.startswith("session-"):
+        sess_lbl = ""  # default genérico → sin slug visible
+    marker = f"{date}__{sess_lbl}" if sess_lbl else date
+    sess_txt = f"Session · {date}" + (f" · {sess_lbl}" if sess_lbl else "")
     html_parts.append(f'\n    <!-- Episode {episode_num:03d} -->')
-    html_parts.append(f'\n    <div id="ep-{episode_num:03d}" class="section-label" style="margin-top:56px">Session · {date}</div>')
+    html_parts.append(f'\n    <div id="ep-{episode_num:03d}" class="section-label" data-session="{marker}" style="margin-top:56px">{sess_txt}</div>')
     html_parts.append(f'''
     <div class="episode-header">
       <div class="episode-number">Episode {episode_num:03d}</div>
@@ -306,10 +312,33 @@ def get_current_episode_count() -> int:
     html = LYAI_ONLINE.read_text(encoding="utf-8")
     return len(re.findall(r'Daily Dialogue · Episode \d+', html))
 
+def remove_session_episode(marker: str, dry_run: bool = False):
+    """Idempotencia per-sesión (2026-06-12): elimina el bloque de episodio cuyo
+    div tiene data-session=marker (día__slug), para que re-cerrar la misma sesión
+    REEMPLACE en vez de duplicar. Devuelve el nº de episodio eliminado o None."""
+    if not LYAI_ONLINE.exists():
+        return None
+    html = LYAI_ONLINE.read_text(encoding="utf-8")
+    pat = re.compile(
+        r'\n[ \t]*<!-- Episode (\d+) -->\s*\n[ \t]*<div id="ep-\d+"[^>]*data-session="'
+        + re.escape(marker) + r'".*?(?=\n[ \t]*<!-- (?:Episode \d+|Next episode) -->)',
+        re.DOTALL,
+    )
+    m = pat.search(html)
+    if not m:
+        return None
+    old_num = int(m.group(1))
+    new_html = html[:m.start()] + html[m.end():]
+    if not dry_run:
+        LYAI_ONLINE.write_text(new_html, encoding="utf-8")
+    print(f"  ↻ Sesión ya tenía episodio (ep-{old_num:03d}) · reemplazando")
+    return old_num
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="Bridge: session → Claude/Aurelius episode")
     parser.add_argument("--date", help="Fecha de sesión a procesar (YYYY-MM-DD). Default: ayer")
+    parser.add_argument("--slug", help="Slug de sesión (per-sesión): lee session-{date}-{slug}.md y etiqueta el episodio")
     parser.add_argument("--dry-run", action="store_true", help="No escribe archivos, solo muestra output")
     parser.add_argument("--no-git", action="store_true", help="No hace git commit/push")
     args = parser.parse_args()
@@ -321,17 +350,27 @@ def main():
         yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
         target_date = yesterday
 
-    session_file = SESSIONS_DIR / f"session-{target_date}.md"
+    slug = re.sub(r'[^a-z0-9]+', '-', (args.slug or '').lower()).strip('-')
+    if slug:
+        session_file = SESSIONS_DIR / f"session-{target_date}-{slug}.md"
+    else:
+        session_file = SESSIONS_DIR / f"session-{target_date}.md"
     if not session_file.exists():
-        print(f"✗ No hay sesión archivada para {target_date}")
-        print(f"  Ejecuta primero: python3 archive-session.py --date {target_date}")
+        print(f"✗ No hay sesión archivada para {target_date}{(' · ' + slug) if slug else ''}")
+        print(f"  Ejecuta primero: python3 archive-session.py --date {target_date}" + (f" --session-id <id> --slug {slug}" if slug else ""))
         sys.exit(1)
 
-    print(f"→ Procesando sesión: {target_date}")
+    print(f"→ Procesando sesión: {target_date}{(' · ' + slug) if slug else ''}")
 
     # Extract context
     ctx = extract_context(session_file)
+    ctx["date"] = target_date          # override · el filename per-sesión lleva slug
+    ctx["session_label"] = slug
     print(f"  Turnos: {ctx['user_turns']} user · {ctx['claude_turns']} claude")
+
+    # Idempotencia per-sesión: si esta sesión ya tenía episodio → quitarlo antes (reemplaza)
+    if slug:
+        remove_session_episode(f"{target_date}__{slug}", dry_run=args.dry_run)
 
     # Determine episode number
     episode_num = get_current_episode_count() + 1
@@ -340,6 +379,9 @@ def main():
     # Generate via Gemini
     try:
         ep = generate_dialogue(ctx, episode_num)
+        ep["episode"] = episode_num            # autoridad nuestra, no la de Gemini
+        ep["date"] = target_date
+        ep["session_label"] = slug             # slug humano → label + marcador data-session
         print(f"  ✓ Diálogo generado: {len(ep.get('exchanges', []))} exchanges")
     except Exception as e:
         print(f"✗ Error generando diálogo: {e}")
