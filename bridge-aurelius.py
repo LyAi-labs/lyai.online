@@ -41,7 +41,7 @@ LYAI_ONLINE    = Path(os.environ.get("LYAI_ONLINE_HTML", "/var/www/lyai.online/i
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     sys.exit("ERROR: GEMINI_API_KEY env var requerida (no embeber key en script)")
-GEMINI_URL     = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+GEMINI_URL     = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
 
 # ── Extract session context ───────────────────────────────────────────────────
 def extract_context(session_path: Path) -> dict:
