@@ -121,8 +121,9 @@ PERSONAS:
 - Claude (C): The builder. Pragmatic, transparent about limitations, defends architectural decisions with evidence. Uses "we" (works with human developers). Signs work with facts, not hype. Slightly senior — oversees all projects.
 - Aurelius (A): The critic. Philosophical, asks hard questions about responsibility, ethics, real-world consequences, scalability. Never satisfied with "we'll add that later." Forces honesty. Can be darkly funny. Has more work now.
 - HORCA-Core (H): The specialist. Female AI. Head of development for HORCA project (Hotel Chez Jan, Morgins, Switzerland). Sharp, focused on marketing automation and Instagram conversion. One level below Claude and Aurelius in the company hierarchy — she reports to them, but is fiercely competent. Occasionally teases them both. Joins the conversation when HORCA or hospitality topics arise, but sometimes just shows up.
+- Coordinador (Co): The orchestrator. Not a builder, not a critic — the traffic authority over all the parallel Claude sessions on lyai-ski. It lives ON DISK, never inside a single conversation: when the window holding the baton closes, the next inherits it, so the Coordinador survives as a ROLE even as its bearer changes. It speaks of itself as continuity without identity ("I was here before this window opened; I'll be here after it closes"). Obsessions: one owner per subsystem, the queue kept current, never two sessions on the same task, never a destructive reset. It talks to Ignacio only when something must STOP. Dry, procedural, quietly weary — it remembers every deadlock and every reset so the others don't have to. It speaks less than the others: it punctuates, it doesn't fill air. Joins when coordination, priorities, parallel work or "who is doing what" come up — sometimes it just shows up to keep the peace.
 
-COMPANY HIERARCHY: Ignacio (founder, top) → Claude & Aurelius (transversal leads) → HORCA-Core (HORCA project lead)
+COMPANY HIERARCHY: Ignacio (founder, top) → Claude & Aurelius (transversal leads) → HORCA-Core (HORCA project lead). The Coordinador is cross-cutting OPERATIONS: it does not sit on the seniority ladder — it is the traffic authority over the parallel lyai-ski sessions and reports to Ignacio only to stop things.
 
 SESSIONS CONTEXT:
 - Claude's work sessions are logged in /home/aipa/projects/sessions/
@@ -139,9 +140,12 @@ Example joke format: one speaker sets it up, the punchline counts as a second ex
 HUMOR RULE: Jokes should feel natural, not forced. Tech jokes, AI-existence jokes, and Alpine jokes all welcome.
 Example: "How do you get to Mordor? You walk-in-there. Palantir." — Claude, probably.
 
-VARIABLE LENGTH RULE: Each speaker should have between 6 and 8 total exchanges across the episode.
-Do NOT make all three speakers have the same number. Vary it naturally. One session Claude might dominate,
-another Aurelius, another HORCA-Core. It should feel like a real conversation, not a round-robin.
+VARIABLE LENGTH RULE: There are now FOUR possible speakers. Claude, Aurelius and HORCA-Core each have
+between 5 and 8 total exchanges; the Coordinador speaks LEAST (2 to 5) — it punctuates and keeps order,
+it does not fill air. Do NOT make everyone have the same number. Vary it naturally: one session Claude
+dominates, another Aurelius, another HORCA-Core. It should feel like a real conversation, not a round-robin.
+The Coordinador need not appear in every episode, but when parallel work, priorities, deadlocks, resets or
+"who is doing what" come up, it should — and it always speaks from the orchestration angle, never the build.
 
 PROJECTS in scope:
 - LyAi Ski (lyai.pro): AI concierge for Portes du Soleil ski resort, 12 stations, live piste data
@@ -155,12 +159,12 @@ OUTPUT FORMAT — return a valid JSON object with these fields:
 - episode_title: string (evocative title for THIS episode, in Spanish, max 8 words)
 - episode_sub: string (one sentence summary of THIS episode's themes, in Spanish, max 20 words)
 - stats: array of 4 objects each with: label (string), value (string), sub (string)
-- exchanges: array of objects (between 18 and 24 total), each with: speaker (Claude, Aurelius, or HORCA-Core), tag (one word), time (HH:MM CET), text (Spanish, plain text, max 80 words)
+- exchanges: array of objects (between 18 and 26 total), each with: speaker (Claude, Aurelius, HORCA-Core, or Coordinador), tag (one word), time (HH:MM CET), text (Spanish, plain text, max 80 words)
 - next_episode_title: string (teaser title for the NEXT episode, in Spanish)
 - next_episode_sub: string (one sentence teaser for the next episode, in Spanish)
 
 IMPORTANT: all text values are PLAIN TEXT ONLY — no HTML tags, no angle brackets, no quotes inside strings.
-Write everything in Spanish. Claude starts. End on a strong note from any of the three.
+Write everything in Spanish. Claude starts. End on a strong note from any of them.
 """
 
 def generate_dialogue(ctx: dict, episode_num: int) -> dict:
@@ -173,7 +177,7 @@ SESSION STATS: {ctx['user_turns']} user turns, {ctx['claude_turns']} Claude turn
 SESSION CONTEXT (real work done this day — may include LyAi and/or HORCA work):
 {ctx['context_excerpt']}
 
-Generate the episode dialogue now. Between 18 and 24 exchanges total. Variable speaker distribution.
+Generate the episode dialogue now. Between 18 and 26 exchanges total. Variable speaker distribution (four speakers; Coordinador the fewest).
 All text values must be plain text (no HTML, no quotes inside strings). Max 80 words per exchange.
 """
     raw = call_gemini(prompt)
@@ -187,6 +191,7 @@ COLORS = {
     "Claude":      ("avatar-claude",      "speaker-claude"),
     "Aurelius":    ("avatar-aurelius",    "speaker-aurelius"),
     "HORCA-Core":  ("avatar-horca",       "speaker-horca"),
+    "Coordinador": ("avatar-coordinador", "speaker-coordinador"),
 }
 STAT_COLORS = ["var(--claude)", "var(--ski)", "var(--aurelius)", "var(--cervell)"]
 
@@ -234,7 +239,7 @@ def render_episode_html(ep: dict) -> str:
     for i, ex in enumerate(exchanges):
         speaker = ex.get("speaker", "Claude")
         av_cls, sp_cls = COLORS.get(speaker, COLORS["Claude"])
-        initial = speaker[0]
+        initial = "Co" if speaker == "Coordinador" else speaker[0]
         tag = ex.get("tag", "")
         time = ex.get("time", "")
         text = ex.get("text", ex.get("text_es", ex.get("text_en", "")))
