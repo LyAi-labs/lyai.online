@@ -12,3 +12,8 @@ __pycache__/
 # Editor
 .vscode/
 *.swp
+
+# 28 MB · se sirve desde /var/www pero no va a git · copia en /opt/lyai/backups/lyai-online/
+video/
+*.bak.*
+*.bak-*
