@@ -39,7 +39,23 @@ sed -i -E '
  s/AKIA[0-9A-Z]{16}/[REDACTED-AWS]/g;
  s/AIza[0-9A-Za-z_-]{30,}/[REDACTED-GOOGLE]/g;
  s/sk-[A-Za-z0-9]{20,}/sk-[REDACTED]/g;
- s/xox[baprs]-[A-Za-z0-9-]{10,}/xox-[REDACTED]/g
+ s/xox[baprs]-[A-Za-z0-9-]{10,}/xox-[REDACTED]/g;
+ # 2026-08-03 · DSN y contraseñas. El bloque de arriba solo cubría TOKENS con prefijo
+ # reconocible; al ir a versionar sessions/ aparecieron 56 credenciales reales en 17 de
+ # 121 ficheros: 30 DSN "postgresql://lyai:<pass>@" y varios "password=". La web publicada
+ # estaba limpia (Gemini resume, no copia), pero los .md son la ENTRADA y se iban a GitHub.
+ s#(postgres(ql)?://[^:/ ]+):[^@ ]+@#\1:[REDACTED-DSN]@#g;
+ s#(password|passwd|PGPASSWORD|POSTGRES_PASSWORD)([[:space:]]*[:=][[:space:]]*)["'"'"']?[A-Za-z0-9!@#$%^&*_.-]{8,}["'"'"']?#\1\2[REDACTED]#gI;
+ # 2026-08-03 (2ª tanda) · lo que el push protection de GitHub cazo y estas reglas NO:
+ #   · sk-ant-…  el patron viejo era sk-[A-Za-z0-9]{20,} y el GUION de "sk-ant-" lo cortaba
+ #   · gsk_…     Groq, sin patron ninguno
+ #   · AQ.…      claves GCP del formato nuevo, sin prefijo AIza
+ # Leccion: la lista de prefijos SIEMPRE va por detras. El push protection de GitHub es
+ # la red de verdad; estas reglas solo evitan llegar hasta alli con el secreto en la mano.
+ s/sk-ant-[A-Za-z0-9_-]{20,}/sk-ant-[REDACTED]/g;
+ s/gsk_[A-Za-z0-9]{20,}/gsk_[REDACTED]/g;
+ s/AQ\.[A-Za-z0-9_-]{20,}/AQ.[REDACTED-GCP]/g;
+ s/(GOOGLE_API_KEY|GEMINI_API_KEY|GROQ_API_KEY|ANTHROPIC_API_KEY)([[:space:]]*[:=][[:space:]]*)["'"'"']?[A-Za-z0-9_-]{20,}["'"'"']?/\1\2[REDACTED]/gI
 ' sessions/*.md 2>/dev/null || true
 echo "🔒 redacción de secretos aplicada a sessions/*.md"
 

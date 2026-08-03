@@ -1,0 +1,6 @@
+# Mirror Protocol — audio multivoz de episodios (free tier)
+# 4 episodios/día, más antiguos primero. Idempotente. Autónomo (sin intervención).
+# Driver: /opt/lyai/app/lyai.online/daily-audio-batch.sh · Log: /var/log/lyai-online-audio.log
+PATH=/usr/local/bin:/usr/bin:/bin
+MAILTO=""
+0 5 * * * lyai /opt/lyai/app/lyai.online/daily-audio-batch.sh 4 >> /var/log/lyai-online-audio.log 2>&1
