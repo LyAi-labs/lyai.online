@@ -43,4 +43,28 @@ sed -i -E '
 ' sessions/*.md 2>/dev/null || true
 echo "🔒 redacción de secretos aplicada a sessions/*.md"
 
+# --- Sync-back al repo (2026-08-03) -------------------------------------------------
+# POR QUÉ: bridge-aurelius.py escribe DIRECTAMENTE en /var/www/lyai.online/index.html.
+# Durante meses eso significó que el fichero servido era el ORIGINAL y el repo se quedaba
+# atrás: 2,29 MB servidos frente a 695 KB versionados, o sea 1,6 MB de episodios que solo
+# existían en un disco. Este paso cierra el círculo.
+#
+# Es ADITIVO y no puede romper el pipeline: cuando llega aquí el episodio YA está publicado.
+# Por eso todo va con `|| true` y el sitio nunca depende de que esto funcione.
+LIVE_HTML="${LYAI_ONLINE_HTML:-/var/www/lyai.online/index.html}"
+if [ -f "$LIVE_HTML" ] && [ -d "$SCRIPT_DIR/.git" ]; then
+  if ! cmp -s "$LIVE_HTML" "$SCRIPT_DIR/index.html"; then
+    cp "$LIVE_HTML" "$SCRIPT_DIR/index.html" 2>/dev/null || true
+    git -C "$SCRIPT_DIR" add index.html 2>/dev/null || true
+    git -C "$SCRIPT_DIR" commit -q -m "site: episodio del $TARGET_DATE (sync-back automatico)" 2>/dev/null || true
+    if git -C "$SCRIPT_DIR" push -q origin HEAD 2>/dev/null; then
+      echo "📦 index.html sincronizado al repo y pusheado"
+    else
+      echo "⚠️  index.html commiteado pero SIN push (el sitio no se ve afectado)"
+    fi
+  else
+    echo "📦 index.html ya estaba en sync con el repo"
+  fi
+fi
+
 echo "✅ Pipeline completado para $TARGET_DATE${SLUG:+ · $SLUG}"
