@@ -9,7 +9,13 @@
   --bg:#070a10; --bg-2:#0b1017; --bg-3:#131a24; --bg-4:#1b2430;
   --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
   --text:#e9eef4; --text-dim:#9aa7b6; --text-mute:#5f6b7a;
-  --accent:#5ad1e6; --accent-strong:#8ee7f5; --accent-deep:#0e6b7d;
+  /* 2026-08-30 (Ignacio) · unificado con la marca. Los dos turquesas eran casi el MISMO
+     tono —182,9° la app contra 189,0° este— y solo diferian en saturacion y luminosidad.
+     Y el corporativo #42A5AA NO es ilegible aqui: da 5,99:1 sobre este fondo, por encima
+     del minimo de 4,5 (yo dije «apagado» hablando de brillo, no de legibilidad).
+     Asi que en vez de elegir entre uno u otro, se ACLARA el corporativo sin cambiarle el
+     tono: misma marca, y el brillo que pide un fondo oscuro. Contraste 9,55:1. */
+  --accent:#68CFD4; --accent-strong:#90DCE0; --accent-deep:#1D6467;
   --claude:#5ad1e6; --aurelius:#a48be6; --horca:#e6a24d;
   --g-ski:#4fb8d9; --g-horca:#d99a4f; --g-etica:#9b7fd4; --g-infra:#5f9bd6; --g-mem:#d46f9b;
   --shadow:0 18px 50px -18px rgba(0,0,0,.8);
@@ -141,9 +147,9 @@ main{position:relative;z-index:2;margin-top:-30px;padding-bottom:70px}
    abierta para el resplandor. */
 .card-body h3{font-family:var(--font-display);font-weight:500;font-size:.97rem;line-height:1.2;margin:0 0 7px;
   color:var(--accent-strong);
-  text-shadow:0 0 6px rgba(90,209,230,.55), 0 0 18px rgba(90,209,230,.30), 0 1px 0 rgba(0,0,0,.5);
+  text-shadow:0 0 6px rgba(104,207,212,.55), 0 0 18px rgba(104,207,212,.30), 0 1px 0 rgba(0,0,0,.5);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.35em}
-.card:hover .card-body h3{color:#bff4fb;text-shadow:0 0 8px rgba(142,231,245,.75), 0 0 24px rgba(90,209,230,.45)}
+.card:hover .card-body h3{color:#B7E8EB;text-shadow:0 0 8px rgba(144,220,224,.85), 0 0 24px rgba(104,207,212,.45)}
 .card-meta{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--text-mute)}
 .card-meta .gdot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
 .card-hoversum{font-size:12px;color:var(--text-dim);line-height:1.45;margin-top:8px;
