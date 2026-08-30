@@ -244,7 +244,7 @@ body.searching .results{display:block}
 </div>
 
 <script>
-/* ============ Datos vivos (mirror_list · fuente 2026-08-24) ============ */
+/* ============ Datos de episodios (2026-08-24) ============ */
 /* [numero, fecha, titulo, resumen, formato, turnos] */
 const RAW = [
 [1,"2026-03-14","","","antiguo",5],[2,"2026-03-15","","","antiguo",5],[3,"2026-03-16","","","antiguo",5],[4,"2026-03-17","","","antiguo",5],[5,"2026-03-18","","","antiguo",5],
@@ -718,8 +718,8 @@ buildRows();
 flushPosters();
 
 document.getElementById('footNote').innerHTML=
-  `Fuente viva: MCP LyAi · mirror_list (actualizado 2026-08-24) · ${EPS.length} episodios en catálogo.<br>`+
-  `Nota del origen: la numeración está rota en la fuente — existen dos episodios 102 y no existe el 103. Se muestran tal cual, sin corregir.`;
+  `Catálogo de ${EPS.length} episodios · datos actualizados el 24 ago 2026.<br>`+
+  `Nota: la numeración de origen tiene dos episodios 102 y no tiene el 103; se muestran tal cual, sin corregir.`;
 
 // nav sólida al hacer scroll
 const nav=document.getElementById('nav');
