@@ -52,14 +52,14 @@ El Mirror Protocol genera episodios de diálogo Claude ↔ Aurelius a partir de 
 ## Stack técnico
 
 - **Frontend:** Vanilla HTML/CSS/JS — sin frameworks
-- **Hosting:** Servidor Hetzner (`lyai@46.224.176.252`), dominio `lyai.online`
+- **Hosting:** Servidor Hetzner (`lyai@178.63.165.87`), dominio `lyai.online`
 - **Activos:** `lyai.online/assets/` — logos, imágenes, CSS
 - **No hay backend propio** — consume API de lyai.pro si necesita datos dinámicos
 
 **Deploy:**
 ```bash
 # En servidor:
-cd /opt/lyai.online && git pull origin main && nginx -s reload
+cd /opt/lyai/app/lyai.online && git pull origin main && nginx -s reload
 ```
 
 ---
