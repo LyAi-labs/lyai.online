@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Mirror Protocol</title>
 <meta name="description" content="El archivo diario del Mirror Protocol de LyAi, presentado como un catálogo para ver.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,8 +134,16 @@ main{position:relative;z-index:2;margin-top:-30px;padding-bottom:70px}
   background:rgba(0,0,0,.4);color:#fff;backdrop-filter:blur(3px)}
 .poster .fmt.nuevo{color:#062;background:rgba(122,224,160,.9)}
 .card-body{padding:11px 13px 13px}
+/* 2026-08-30 (Ignacio) · «los titulos no se ven porque la fuente es de color negro».
+   Esta regla NO declaraba `color`, asi que heredaba y acababa en negro sobre #131a24:
+   no es que se leyeran mal, es que no se leian. Turquesa de la propia paleta de la
+   pagina (--accent-strong) con halo neon en dos capas: una cerrada para el filo y otra
+   abierta para el resplandor. */
 .card-body h3{font-family:var(--font-display);font-weight:500;font-size:.97rem;line-height:1.2;margin:0 0 7px;
+  color:var(--accent-strong);
+  text-shadow:0 0 6px rgba(90,209,230,.55), 0 0 18px rgba(90,209,230,.30), 0 1px 0 rgba(0,0,0,.5);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.35em}
+.card:hover .card-body h3{color:#bff4fb;text-shadow:0 0 8px rgba(142,231,245,.75), 0 0 24px rgba(90,209,230,.45)}
 .card-meta{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--text-mute)}
 .card-meta .gdot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
 .card-hoversum{font-size:12px;color:var(--text-dim);line-height:1.45;margin-top:8px;
