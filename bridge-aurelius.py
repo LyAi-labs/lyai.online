@@ -41,7 +41,16 @@ LYAI_ONLINE    = Path(os.environ.get("LYAI_ONLINE_HTML", "/var/www/lyai.online/i
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     sys.exit("ERROR: GEMINI_API_KEY env var requerida (no embeber key en script)")
-GEMINI_URL     = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
+# 2026-08-30 (2) · MODELO FIJADO, no alias. `gemini-flash-latest` devolvia 503 hasta
+# con una peticion de "di hola" y 64 tokens — sondeado, no supuesto: no era el tamano
+# de la sesion (133 KB, la mediana exacta de 139) ni los 8192 tokens de salida.
+# El alias apunta a lo que Google quiera ese dia; ese dia apuntaba a algo caido.
+# Medido el mismo minuto:  gemini-3.5-flash 12,5 s ✅ · gemini-3.6-flash 25,9 s ✅
+#                          gemini-flash-lite-latest 1,4 s ✅ · gemini-flash-latest 503 ❌
+#                          gemini-2.5-flash y -lite: 404, RETIRADOS
+# (ojo: RULES-COSTS.md sigue citando "Gemini 2.5-flash" como la API gratuita.)
+GEMINI_MODELO  = os.environ.get("MIRROR_GEMINI_MODELO", "gemini-3.5-flash")
+GEMINI_URL     = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODELO}:generateContent?key={GEMINI_API_KEY}"
 
 # ── Extract session context ───────────────────────────────────────────────────
 def extract_context(session_path: Path) -> dict:
@@ -108,9 +117,23 @@ def call_gemini(prompt: str) -> str:
         headers={"Content-Type": "application/json"},
         method="POST"
     )
-    with urllib.request.urlopen(req, timeout=90) as resp:
-        result = json.loads(resp.read().decode("utf-8"))
-    return result["candidates"][0]["content"]["parts"][0]["text"]
+    # 2026-08-30 · aqui habia `timeout=90` y UN solo intento, y por eso el Mirror fallaba casi
+    # cada noche con un "HTTP Error 503" que NO era del servicio: la misma clave y el mismo
+    # modelo respondian bien a una peticion pequena. Replicando la llamada exacta salia un
+    # TimeoutError. La causa ya estaba medida en memoria el 24-ago: el alias
+    # `gemini-flash-latest` sirve gemini-3.7-flash, que pasa de 30 s en 8 de 11 sondas — y esta
+    # peticion pide hasta 8192 tokens de salida. La generacion del Episode 177 tardo 85 s: justo
+    # por debajo del corte viejo, o sea que entraba por los pelos y casi nunca.
+    ultimo = None
+    for intento in (1, 2, 3):
+        try:
+            with urllib.request.urlopen(req, timeout=300) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+            return result["candidates"][0]["content"]["parts"][0]["text"]
+        except Exception as e:
+            ultimo = e
+            print(f"  · Gemini intento {intento}/3 fallo: {type(e).__name__}", flush=True)
+    raise ultimo
 
 # ── Generate dialogue ─────────────────────────────────────────────────────────
 SYSTEM_CONTEXT = """
