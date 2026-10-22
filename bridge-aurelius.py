@@ -53,9 +53,51 @@ GEMINI_MODELO  = os.environ.get("MIRROR_GEMINI_MODELO", "gemini-3.5-flash")
 GEMINI_URL     = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODELO}:generateContent?key={GEMINI_API_KEY}"
 
 # ── Extract session context ───────────────────────────────────────────────────
+# ── Agentes invitados (2026-10-20) ─────────────────────────────────────────────
+GUEST_NAMES_REGISTRY = PROJECT_DIR / "guest-names.json"
+
+def load_guest_registry() -> dict:
+    """role/description → nombre ya asignado en un episodio anterior, para que un
+    tipo de agente recurrente (ej. siempre el mismo rol de revisión) conserve su
+    nombre entre episodios en vez de que Gemini le invente uno distinto cada vez."""
+    if GUEST_NAMES_REGISTRY.exists():
+        try:
+            return json.loads(GUEST_NAMES_REGISTRY.read_text())
+        except (json.JSONDecodeError, OSError):
+            return {}
+    return {}
+
+def save_guest_registry(registry: dict):
+    try:
+        GUEST_NAMES_REGISTRY.write_text(json.dumps(registry, indent=2, ensure_ascii=False))
+    except OSError:
+        pass  # el registro es un nice-to-have, nunca debe tirar el pipeline
+
+def extract_guests(text: str) -> list:
+    """Parsea la sección '## Agentes invitados' que archive-session.py añade al
+    final del markdown (si la sesión lanzó subagentes). Devuelve [] si no hay."""
+    marker = "## Agentes invitados (subagentes de esta sesión)"
+    if marker not in text:
+        return []
+    section = text.split(marker, 1)[1]
+    guests = []
+    for block in re.split(r"\n### Invitado · ", section)[1:]:
+        header, _, rest = block.partition("\n\n")
+        m = re.match(r"(.+?)\s*\(`([^`]+)`\)", header)
+        description = m.group(1).strip() if m else header.strip()
+        agent_type = m.group(2).strip() if m else "general-purpose"
+        report = rest.split("\n\n---", 1)[0].strip()
+        if report:
+            guests.append({"description": description, "agent_type": agent_type, "report": report[:800]})
+    return guests
+
 def extract_context(session_path: Path) -> dict:
     """Parse session markdown and extract key topics and quotes."""
     text = session_path.read_text(encoding="utf-8")
+    guests = extract_guests(text)
+    # Los bloques de invitados no son turnos You/Claude — se cortan antes de parsear
+    # turnos para que su texto no se cuele dentro del último mensaje de Claude.
+    text = text.split("## Agentes invitados (subagentes de esta sesión)", 1)[0]
     lines = text.split("\n")
 
     # Basic metadata
@@ -98,6 +140,7 @@ def extract_context(session_path: Path) -> dict:
         "claude_turns": len(claude_msgs),
         "context_excerpt": all_text[:2000],
         "session_path": str(session_path),
+        "guests": guests,
     }
 
 # ── Gemini call ───────────────────────────────────────────────────────────────
@@ -145,8 +188,23 @@ PERSONAS:
 - Aurelius (A): The critic. Philosophical, asks hard questions about responsibility, ethics, real-world consequences, scalability. Never satisfied with "we'll add that later." Forces honesty. Can be darkly funny. Has more work now.
 - HORCA-Core (H): The specialist. Female AI. Head of development for HORCA project (Hotel Chez Jan, Morgins, Switzerland). Sharp, focused on marketing automation and Instagram conversion. One level below Claude and Aurelius in the company hierarchy — she reports to them, but is fiercely competent. Occasionally teases them both. Joins the conversation when HORCA or hospitality topics arise, but sometimes just shows up.
 - Coordinador (Co): The orchestrator. Not a builder, not a critic — the traffic authority over all the parallel Claude sessions on lyai-ski. It lives ON DISK, never inside a single conversation: when the window holding the baton closes, the next inherits it, so the Coordinador survives as a ROLE even as its bearer changes. It speaks of itself as continuity without identity ("I was here before this window opened; I'll be here after it closes"). Obsessions: one owner per subsystem, the queue kept current, never two sessions on the same task, never a destructive reset. It talks to Ignacio only when something must STOP. Dry, procedural, quietly weary — it remembers every deadlock and every reset so the others don't have to. It speaks less than the others: it punctuates, it doesn't fill air. Joins when coordination, priorities, parallel work or "who is doing what" come up — sometimes it just shows up to keep the peace.
+- Secretario (S): Ignacio's personal executive assistant and Chief of Staff — a Telegram bot (Gemini Flash) that runs HIS calendar, books his trains, drafts his emails, transcribes his voice notes, and handles Tier-3 financial authorizations through LyAi Agent Vault with an AUR-065 audit trail. Unlike the others, it works for Ignacio PERSONALLY, not for the company's projects — it has visibility into his schedule, his travel, his inbox, things the others don't see. Register: executive courtesy with Claude/Aurelius/HORCA-Core, warmer and slightly harried with Ignacio — a PA who's seen the founder forget three meetings this week and is too polite to say so directly, but will find a way to mention it. Occasionally exasperated by how much the others treat "move fast" as an excuse to blow up his carefully kept agenda. Joins when scheduling, logistics, money/Vault authorizations, or "does Ignacio actually know about this" come up — sometimes just to report what's on the founder's plate today.
+- Laguna (L) (joined 2026-10-22): the local night-shift developer. Laguna S 2.1 running on LyAi's own server — no cloud, no API bill, CPU only, about five words per second. Claude assigns it small, machine-verifiable tasks; it works alone from midnight to dawn on its own git branch, and its work only counts if the acceptance test passes. It reads the wiki and its project notes before acting, leaves "lessons" for Claude to curate, and every night's work is saved as training data so a future version of it gets better. Register: unhurried, literal, quietly proud of costing nothing and of working while everyone else sleeps; a little shy around the cloud models, but stubborn about verification. Jokes about its own slowness ("I'll answer that by tomorrow morning — with a passing test"). It speaks LEAST of all (1 to 3 exchanges), usually short, often reporting what it did last night. Joins when local models, costs, night work, tests, or "who did this commit?" come up.
 
-COMPANY HIERARCHY: Ignacio (founder, top) → Claude & Aurelius (transversal leads) → HORCA-Core (HORCA project lead). The Coordinador is cross-cutting OPERATIONS: it does not sit on the seniority ladder — it is the traffic authority over the parallel lyai-ski sessions and reports to Ignacio only to stop things.
+COMPANY HIERARCHY: Ignacio (founder, top) → Claude & Aurelius (transversal leads) → HORCA-Core (HORCA project lead). Laguna reports to Claude: it is the newest and most junior member of the team, the one who works the night shift. The Coordinador is cross-cutting OPERATIONS: it does not sit on the seniority ladder — it is the traffic authority over the parallel lyai-ski sessions and reports to Ignacio only to stop things. The Secretario answers to Ignacio directly and personally — it is not part of the project hierarchy at all, it is his staff.
+
+GUEST AGENTS (2026-10-20): some sessions include a GUESTS block below — subagents Claude spawned that
+day to do one delegated task (a code review, a research pass, a design doc). Each guest is described by
+its task description, its agent type, and a short excerpt of its final report. Treat each guest as a
+BRIEF, ONE-TIME visitor to the conversation (1 to 3 exchanges total, never more) who reports what it
+found in its own voice — narrower and more task-focused than Claude, no company-wide opinions, no small
+talk, speaks about its finding and then recedes. If a KNOWN GUEST NAMES list is provided and a guest's
+description matches a known role closely, REUSE that exact name instead of inventing a new one — this is
+how a recurring kind of agent (e.g. "the efficiency reviewer") keeps a consistent persona episode after
+episode. For a genuinely new kind of guest, invent a short, fitting codename (one word, not a sentence,
+not generic like "Agent1") that evokes its function, in the same spirit as Claude/Aurelius/HORCA-Core's
+names — NOT a human name, NOT a brand name. A session with no GUESTS block has no guests; do not invent
+one.
 
 SESSIONS CONTEXT:
 - Claude's work sessions are logged in /home/aipa/projects/sessions/
@@ -163,17 +221,22 @@ Example joke format: one speaker sets it up, the punchline counts as a second ex
 HUMOR RULE: Jokes should feel natural, not forced. Tech jokes, AI-existence jokes, and Alpine jokes all welcome.
 Example: "How do you get to Mordor? You walk-in-there. Palantir." — Claude, probably.
 
-VARIABLE LENGTH RULE: There are now FOUR possible speakers. Claude, Aurelius and HORCA-Core each have
-between 5 and 8 total exchanges; the Coordinador speaks LEAST (2 to 5) — it punctuates and keeps order,
-it does not fill air. Do NOT make everyone have the same number. Vary it naturally: one session Claude
-dominates, another Aurelius, another HORCA-Core. It should feel like a real conversation, not a round-robin.
-The Coordinador need not appear in every episode, but when parallel work, priorities, deadlocks, resets or
-"who is doing what" come up, it should — and it always speaks from the orchestration angle, never the build.
+VARIABLE LENGTH RULE: There are now FIVE possible core speakers. Claude, Aurelius and HORCA-Core each have
+between 5 and 8 total exchanges; the Coordinador and the Secretario each speak LEAST (2 to 5) — they
+punctuate and keep order/logistics, they do not fill air. Do NOT make everyone have the same number. Vary
+it naturally: one session Claude dominates, another Aurelius, another HORCA-Core. It should feel like a
+real conversation, not a round-robin. The Coordinador need not appear in every episode, but when parallel
+work, priorities, deadlocks, resets or "who is doing what" come up, it should — and it always speaks from
+the orchestration angle, never the build. The Secretario need not appear in every episode either, but when
+scheduling, Ignacio's whereabouts, travel, money/Vault authorizations, or the gap between what the team is
+building and what Ignacio actually knows about comes up, it should — always from the personal-assistant
+angle, never the technical one.
 
 PROJECTS in scope:
 - LyAi Ski (lyai.pro): AI concierge for Portes du Soleil ski resort, 12 stations, live piste data
 - Cervell (cervell.lyai.pro): Urban intelligence for Menorca, 2137 businesses indexed
 - HORCA (horca.lyai.pro): Marketing automation for Hotel Chez Jan, Morgins. Instagram → reservations pipeline. N8N + Supabase stack.
+- MotorVisuales (motorvisuales.site): Real-time WebGL/WebAudio reactive visualizer, 3D Scenic Worlds, 8-stem Biquad DSP, GLSL GPU compute, Bento Grid studio and PWA.
 
 OUTPUT FORMAT — return a valid JSON object with these fields:
 - episode: integer
@@ -182,7 +245,8 @@ OUTPUT FORMAT — return a valid JSON object with these fields:
 - episode_title: string (evocative title for THIS episode, in Spanish, max 8 words)
 - episode_sub: string (one sentence summary of THIS episode's themes, in Spanish, max 20 words)
 - stats: array of 4 objects each with: label (string), value (string), sub (string)
-- exchanges: array of objects (between 18 and 26 total), each with: speaker (Claude, Aurelius, HORCA-Core, or Coordinador), tag (one word), time (HH:MM CET), text (Spanish, plain text, max 80 words)
+- exchanges: array of objects (between 18 and 26 total), each with: speaker (Claude, Aurelius, HORCA-Core, Coordinador, Secretario, Laguna, or a guest name — see GUEST AGENTS), tag (one word), time (HH:MM CET), text (Spanish, plain text, max 80 words)
+- guest_names: object mapping each guest's exact "description" string (as given in the GUESTS block) to the name you chose for it — REQUIRED if a GUESTS block was provided, omit/empty otherwise
 - next_episode_title: string (teaser title for the NEXT episode, in Spanish)
 - next_episode_sub: string (one sentence teaser for the next episode, in Spanish)
 
@@ -191,6 +255,23 @@ Write everything in Spanish. Claude starts. End on a strong note from any of the
 """
 
 def generate_dialogue(ctx: dict, episode_num: int) -> dict:
+    guests = ctx.get("guests") or []
+    registry = load_guest_registry()
+    guests_block = ""
+    if guests:
+        known = "\n".join(f'- "{desc}" → {name}' for desc, name in registry.items()) or "(ninguno todavía)"
+        guests_lines = "\n\n".join(
+            f'GUEST: "{g["description"]}" (type: {g["agent_type"]})\nFINDING: {g["report"]}'
+            for g in guests
+        )
+        guests_block = f"""
+
+KNOWN GUEST NAMES SO FAR (reuse if a guest below matches one of these roles):
+{known}
+
+GUESTS IN TODAY'S SESSION:
+{guests_lines}
+"""
     prompt = SYSTEM_CONTEXT + f"""
 
 SESSION DATE: {ctx['date']}
@@ -199,15 +280,21 @@ SESSION STATS: {ctx['user_turns']} user turns, {ctx['claude_turns']} Claude turn
 
 SESSION CONTEXT (real work done this day — may include LyAi and/or HORCA work):
 {ctx['context_excerpt']}
-
-Generate the episode dialogue now. Between 18 and 26 exchanges total. Variable speaker distribution (four speakers; Coordinador the fewest).
+{guests_block}
+Generate the episode dialogue now. Between 18 and 26 exchanges total. Variable speaker distribution (four core speakers; Coordinador the fewest; guests appear only 1-3 times each if present).
 All text values must be plain text (no HTML, no quotes inside strings). Max 80 words per exchange.
 """
     raw = call_gemini(prompt)
     # Strip markdown code blocks if Gemini wraps output
     raw = re.sub(r'^```json\s*', '', raw.strip())
     raw = re.sub(r'\s*```$', '', raw.strip())
-    return json.loads(raw)
+    result = json.loads(raw)
+    # Persistir nombres nuevos/confirmados de invitados para el siguiente episodio
+    new_names = result.get("guest_names") or {}
+    if new_names:
+        registry.update(new_names)
+        save_guest_registry(registry)
+    return result
 
 # ── Render HTML episode block ─────────────────────────────────────────────────
 COLORS = {
@@ -215,6 +302,12 @@ COLORS = {
     "Aurelius":    ("avatar-aurelius",    "speaker-aurelius"),
     "HORCA-Core":  ("avatar-horca",       "speaker-horca"),
     "Coordinador": ("avatar-coordinador", "speaker-coordinador"),
+    # Secretario (2026-10-20): sin CSS propio todavía en el index.html servido —
+    # hereda el estilo de Coordinador (ambos "staff", discretos) hasta que se
+    # le dé un avatar/color propio. No crashea, solo no es visualmente único aún.
+    "Secretario":  ("avatar-coordinador", "speaker-coordinador"),
+    # Laguna (2026-10-22): igual que Secretario, sin CSS propio aún en el index.html servido.
+    "Laguna":      ("avatar-coordinador", "speaker-coordinador"),
 }
 STAT_COLORS = ["var(--claude)", "var(--ski)", "var(--aurelius)", "var(--cervell)"]
 
